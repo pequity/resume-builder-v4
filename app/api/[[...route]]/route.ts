@@ -18,7 +18,11 @@ app.onError((err, c) => {
   return c.json({ error: "internal error" });
 });
 
-const routes = app.route("/authors", authors).route("/books", books);
+// ❌ Original problematic code (commented out)
+// const routes = app.route("/authors", authors).route("/books", books);
+
+// ✅ Fixed version: directly modifying `app`
+app.route("/authors", authors).route("/books", books);
 
 app.get("/", (c) => {
   return c.json({
@@ -26,7 +30,11 @@ app.get("/", (c) => {
   });
 });
 
-export type AppType = typeof routes;
+// ❌ Original issue (commented out)
+// export type AppType = typeof routes;
+
+// ✅ Fixed: Using app directly as the type
+export type AppType = typeof app;
 
 export const GET = handle(app);
 export const POST = handle(app);
