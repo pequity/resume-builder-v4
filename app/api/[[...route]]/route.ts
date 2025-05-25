@@ -17,11 +17,16 @@ app.onError((err, c) => {
   return c.json({ error: "internal error" });
 });
 
-// ✅ This mounts /api/document/*
 const routes = app.basePath("/api").route("/document", documentRoute);
 
-// ✅ This allows the client to infer routes properly
-export type AppType = typeof routes;
-export default routes; // ✅ must export routes, not app
+app.get("/", (c) => {
+  return c.json({
+    message: "Hello from Ai Resume!",
+  });
+});
 
-// export default app; // ❌ old — broke AppType inference
+export type AppType = typeof routes;
+
+export const GET = handle(app);
+export const POST = handle(app);
+export const PATCH = handle(app);

@@ -1,36 +1,54 @@
-import { Hono } from "hono";
+import {
+  DocumentSchema,
+  createDocumentTableSchema,
+  documentTable,
+} from "@/db/schema/document";
 import { zValidator } from "@hono/zod-validator";
-import { z } from "zod";
-import { db } from "@/db";
-import { documentTable } from "@/db/schema";
 import { getAuthUser } from "@/lib/kinde";
+import { Hono } from "hono";
 import { generateDocUUID } from "@/lib/helper";
+import { db } from "@/db";
 
-const documentRoute = new Hono();
+const documentRoute = new Hono().post(
+  "/create",
+  zValidator("json", createDocumentTableSchema),
+  getAuthUser,
+  async (c) => {
+    try {
+      const user = c.get("user");
+      const { title } = c.req.valid("json") as DocumentSchema;
+      const userId = user.id;
+      const authorName = `${user.given_name} ${user?.family_name}`;
+      const authorEmail = user.email as string;
+      const documentId = generateDocUUID();
 
-// ✅ THIS is what the tutorial calls when you click "Add Resume"
-documentRoute.post("/create", async (c) => {
-  const user = await getAuthUser(c);
-  if (!user) {
-    return c.json({ error: "unauthorized" }, 401);
+      const newDoc = {
+        title: title,
+        userId: userId,
+        documentId: documentId,
+        authorName: authorName,
+        authorEmail: authorEmail,
+      };
+
+      const [data] = await db.insert(documentTable).values(newDoc).returning();
+      return c.json(
+        {
+          success: "ok",
+          data,
+        },
+        { status: 200 }
+      );
+    } catch (error) {
+      return c.json(
+        {
+          success: false,
+          message: "Failed to create document",
+          error: error,
+        },
+        500
+      );
+    }
   }
-
-  const docId = generateDocUUID();
-
-  const [newDoc] = await db
-    .insert(documentTable)
-    .values({
-      id: docId,
-      userId: user.id,
-      title: "Untitled Resume",
-    })
-    .returning();
-
-  return c.json({ document: newDoc });
-});
-
-// Add more routes below if needed
-// documentRoute.get(...);
-// documentRoute.put(...);
+);
 
 export default documentRoute;
