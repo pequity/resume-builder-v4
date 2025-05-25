@@ -50,11 +50,11 @@ app.onError((err, c) => {
   return c.json({ error: "internal error" });
 });
 
-// ✅ Used for routing at runtime
-const apiRoutes = app.basePath("/api").route("/document", documentRoute);
+// ✅ apply route at runtime, no unused assignment
+app.basePath("/api").route("/document", documentRoute);
 
-// ✅ Used only for typing (inline, so ESLint won't complain)
-export type AppType = typeof apiRoutes;
+// ✅ safely extract type from the app instance directly
+export type AppType = typeof app;
 
 app.get("/", (c) => {
   return c.json({
