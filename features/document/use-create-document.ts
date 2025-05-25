@@ -51,9 +51,9 @@ type RequestType = {
 type ResponseType = {
   success: "ok";
   data: {
-    id: string;
+    documentId: string;
     title: string;
-    // Add any other returned fields
+    // Add any other returned fields from your DB as needed
   };
 };
 
