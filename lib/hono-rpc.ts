@@ -7,8 +7,6 @@
 
 "use client";
 
-import { hc } from "hono/client";
-
 // 👇 Define just the `document.create` shape you need
 export const api = {
   document: {
