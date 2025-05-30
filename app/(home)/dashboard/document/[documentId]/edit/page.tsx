@@ -1,7 +1,13 @@
+import EditResume from "../../../../_components/EditResume";
+import { ResumeInfoProvider } from "@/context/resume-info-provider";
 import React from "react";
 
 const Page = () => {
-  return <div>Edit Resume</div>;
+  return (
+    <ResumeInfoProvider>
+      <EditResume />
+    </ResumeInfoProvider>
+  );
 };
 
 export default Page;

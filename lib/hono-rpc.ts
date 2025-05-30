@@ -46,6 +46,59 @@
 
 //
 
+// Version before the updateResume change
+
+// "use client";
+
+// export const api = {
+//   document: {
+//     create: {
+//       $post: async ({
+//         json,
+//       }: {
+//         json: {
+//           title: string;
+//           summary?: string | null;
+//           status?: "archived" | "private" | "public";
+//           themeColor?: string;
+//           thumbnail?: string;
+//           currentPosition?: number;
+//         };
+//       }) => {
+//         const res = await fetch(
+//           `${process.env.NEXT_PUBLIC_APP_URL}/api/document/create`,
+//           {
+//             method: "POST",
+//             headers: { "Content-Type": "application/json" },
+//             body: JSON.stringify(json),
+//             credentials: "include",
+//           }
+//         );
+
+//         if (!res.ok) throw new Error("Failed to create document");
+//         return res;
+//       },
+//     },
+
+//     // ✅ Add this only block for `all` (DO NOT touch the rest)
+//     all: {
+//       $get: async () => {
+//         const res = await fetch(
+//           `${process.env.NEXT_PUBLIC_APP_URL}/api/document/all`,
+//           {
+//             method: "GET",
+//             credentials: "include",
+//           }
+//         );
+
+//         if (!res.ok) throw new Error("Failed to get documents");
+//         return res;
+//       },
+//     },
+//   },
+// };
+
+// lib/hono-rpc.ts
 "use client";
 
 export const api = {
@@ -78,7 +131,6 @@ export const api = {
       },
     },
 
-    // ✅ Add this only block for `all` (DO NOT touch the rest)
     all: {
       $get: async () => {
         const res = await fetch(
@@ -90,6 +142,46 @@ export const api = {
         );
 
         if (!res.ok) throw new Error("Failed to get documents");
+        return res;
+      },
+    },
+
+    // ✅ Fix for use-get-document-by-id.ts
+    byId: {
+      $get: async ({ documentId }: { documentId: string }) => {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_APP_URL}/api/document/${documentId}`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+
+        if (!res.ok) throw new Error("Failed to fetch document");
+        return res;
+      },
+    },
+
+    // ✅ Fix for use-update-document.ts
+    update: {
+      $patch: async ({
+        documentId,
+        json,
+      }: {
+        documentId: string;
+        json: Record<string, any>;
+      }) => {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_APP_URL}/api/document/update/${documentId}`,
+          {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(json),
+            credentials: "include",
+          }
+        );
+
+        if (!res.ok) throw new Error("Failed to update document");
         return res;
       },
     },
