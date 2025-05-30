@@ -21,7 +21,7 @@ const PersonalInfo: FC<PropsType> = ({ resumeInfo, isLoading }) => {
         className="font-bold text-xl text-center"
         style={{ color: themeColor }}
       >
-        {resumeInfo?.personalInfo?.firstName || "First Name"}
+        {resumeInfo?.personalInfo?.firstName || "First Name"}{" "}
         {resumeInfo?.personalInfo?.lastName || "Last Name"}
       </h2>
       <h5 className="text-center text-sm font-medium">
