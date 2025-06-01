@@ -9,6 +9,9 @@ overrides:
   '@types/react-dom': 19.0.4
 
 dependencies:
+  '@google/generative-ai':
+    specifier: ^0.21.0
+    version: 0.21.0
   '@hono/zod-validator':
     specifier: ^0.4.1
     version: 0.4.3(hono@4.7.4)(zod@3.24.2)
@@ -144,6 +147,9 @@ dependencies:
   next-themes:
     specifier: ^0.4.6
     version: 0.4.6(react-dom@18.3.1)(react@18.3.1)
+  openai:
+    specifier: ^5.0.1
+    version: 5.0.1(zod@3.24.2)
   react:
     specifier: ^18.3.1
     version: 18.3.1
@@ -1843,6 +1849,11 @@ packages:
 
   /@floating-ui/utils@0.2.9:
     resolution: {integrity: sha512-MDWhGtE+eHw5JW7lq4qhc5yRLS11ERl1c7Z6Xd0a58DozHES6EnNNwUWbMiG4J9Cgj053Bhk8zvlhFYKVhULwg==}
+    dev: false
+
+  /@google/generative-ai@0.21.0:
+    resolution: {integrity: sha512-7XhUbtnlkSEZK15kN3t+tzIMxsbKm/dSkKBFalj+20NvPKe1kBY7mR2P7vuijEn+f06z5+A8bVGKO0v39cr6Wg==}
+    engines: {node: '>=18.0.0'}
     dev: false
 
   /@hono/zod-validator@0.4.3(hono@4.7.4)(zod@3.24.2):
@@ -6248,6 +6259,21 @@ packages:
 
   /obuf@1.1.2:
     resolution: {integrity: sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==}
+    dev: false
+
+  /openai@5.0.1(zod@3.24.2):
+    resolution: {integrity: sha512-Do6vxhbDv7cXhji/4ct1lrpZYMAOmjYbhyA9LJTuG7OfpbWMpuS+EIXkRT7R+XxpRB1OZhU/op4FU3p3uxU6gw==}
+    hasBin: true
+    peerDependencies:
+      ws: ^8.18.0
+      zod: ^3.23.8
+    peerDependenciesMeta:
+      ws:
+        optional: true
+      zod:
+        optional: true
+    dependencies:
+      zod: 3.24.2
     dev: false
 
   /optionator@0.9.4:

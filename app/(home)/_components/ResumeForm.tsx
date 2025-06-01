@@ -4,6 +4,7 @@ import { useResumeContext } from "@/context/resume-info-provider";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import React, { useState } from "react";
 import PersonalInfoForm from "./forms/PersonalInfoForm";
+import SummaryForm from "./forms/SummaryForm";
 
 const ResumeForm = () => {
   const { resumeInfo } = useResumeContext();
@@ -46,7 +47,11 @@ const ResumeForm = () => {
         </div>
         <div className="px-5 py-3 pb-5">
           {/* {PersonalInfo Form} */}
-          <PersonalInfoForm handleNext={handleNext} />
+          {activeFormIndex === 1 && (
+            <PersonalInfoForm handleNext={handleNext} />
+          )}
+
+          {activeFormIndex === 2 && <SummaryForm handleNext={handleNext} />}
         </div>
       </div>
     </div>
