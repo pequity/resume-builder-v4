@@ -165,6 +165,9 @@ dependencies:
   react-resizable-panels:
     specifier: ^2.1.7
     version: 2.1.7(react-dom@18.3.1)(react@18.3.1)
+  react-simple-wysiwyg:
+    specifier: ^3.1.2
+    version: 3.1.2(react@18.3.1)
   recharts:
     specifier: ^2.15.1
     version: 2.15.1(react-dom@18.3.1)(react@18.3.1)
@@ -6610,6 +6613,14 @@ packages:
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+    dev: false
+
+  /react-simple-wysiwyg@3.1.2(react@18.3.1):
+    resolution: {integrity: sha512-AqCjXeqB4dOkPErJn9i0oYAe92j1cvSB3j01p34venenI9uacck199iPBB2idU/UqI3zULW+3jPwIjHO597saQ==}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      react: 18.3.1
     dev: false
 
   /react-smooth@4.0.4(react-dom@18.3.1)(react@18.3.1):

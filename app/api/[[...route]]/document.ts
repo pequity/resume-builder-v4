@@ -577,28 +577,77 @@ const documentRoute = new Hono()
             existingExperience.map((exp) => exp.id)
           );
 
+          // for (const exp of experience) {
+          //   if (exp.id) {
+          //     if (existingExperienceMap.has(exp.id)) {
+          //       const { id, ...updateData } = exp;
+          //       await db
+          //         .update(experienceTable)
+          //         .set(updateData)
+          //         .where(
+          //           and(
+          //             eq(experienceTable.docId, existingDocument.id),
+          //             eq(experienceTable.id, id)
+          //           )
+          //         );
+
+          // Changed updateDate for data
+
           for (const exp of experience) {
-            if (exp.id) {
-              if (existingExperienceMap.has(exp.id)) {
-                const { id, ...updateData } = exp;
-                await db
-                  .update(experienceTable)
-                  .set(updateData)
-                  .where(
-                    and(
-                      eq(experienceTable.docId, existingDocument.id),
-                      eq(experienceTable.id, id)
-                    )
-                  );
-              } else {
-                const { id, ...insertData } = exp;
-                await db
-                  .insert(experienceTable)
-                  .values({ docId: existingDocument.id, ...insertData });
-              }
+            const { id, ...data } = exp;
+
+            if (id !== undefined && existingExperienceMap.has(id)) {
+              await db
+                .update(experienceTable)
+                .set(data)
+                .where(
+                  and(
+                    eq(experienceTable.docId, existingDocument.id),
+                    eq(experienceTable.id, id)
+                  )
+                );
+            } else {
+              await db.insert(experienceTable).values({
+                docId: existingDocument.id,
+                ...data,
+              });
             }
           }
         }
+
+        // // 🎓 EDUCATION
+        // if (education && Array.isArray(education)) {
+        //   const existingEducation = await db
+        //     .select()
+        //     .from(educationTable)
+        //     .where(eq(educationTable.docId, existingDocument.id));
+
+        //   const existingEducationMap = new Set(
+        //     existingEducation.map((edu) => edu.id)
+        //   );
+
+        //   for (const edu of education) {
+        //     if (edu.id) {
+        //       if (existingEducationMap.has(edu.id)) {
+        //         const { id, ...updateData } = edu;
+        //         await db
+        //           .update(educationTable)
+        //           .set(updateData)
+        //           .where(
+        //             and(
+        //               eq(educationTable.docId, existingDocument.id),
+        //               eq(educationTable.id, id)
+        //             )
+        //           );
+        //       } else {
+        //         const { id, ...insertData } = edu;
+        //         await db
+        //           .insert(educationTable)
+        //           .values({ docId: existingDocument.id, ...insertData });
+        //       }
+        //     }
+        //   }
+        // }
 
         // 🎓 EDUCATION
         if (education && Array.isArray(education)) {
@@ -612,27 +661,59 @@ const documentRoute = new Hono()
           );
 
           for (const edu of education) {
-            if (edu.id) {
-              if (existingEducationMap.has(edu.id)) {
-                const { id, ...updateData } = edu;
-                await db
-                  .update(educationTable)
-                  .set(updateData)
-                  .where(
-                    and(
-                      eq(educationTable.docId, existingDocument.id),
-                      eq(educationTable.id, id)
-                    )
-                  );
-              } else {
-                const { id, ...insertData } = edu;
-                await db
-                  .insert(educationTable)
-                  .values({ docId: existingDocument.id, ...insertData });
-              }
+            const { id, ...data } = edu;
+            if (id !== undefined && existingEducationMap.has(id)) {
+              await db
+                .update(educationTable)
+                .set(data)
+                .where(
+                  and(
+                    eq(educationTable.docId, existingDocument.id),
+                    eq(educationTable.id, id)
+                  )
+                );
+            } else {
+              await db.insert(educationTable).values({
+                docId: existingDocument.id,
+                ...data,
+              });
             }
           }
         }
+
+        // // 🧠 SKILLS
+        // if (skills && Array.isArray(skills)) {
+        //   const existingSkills = await db
+        //     .select()
+        //     .from(skillsTable)
+        //     .where(eq(skillsTable.docId, existingDocument.id));
+
+        //   const existingSkillsMap = new Set(
+        //     existingSkills.map((skill) => skill.id)
+        //   );
+
+        //   for (const skill of skills) {
+        //     if (skill.id) {
+        //       if (existingSkillsMap.has(skill.id)) {
+        //         const { id, ...updateData } = skill;
+        //         await db
+        //           .update(skillsTable)
+        //           .set(updateData)
+        //           .where(
+        //             and(
+        //               eq(skillsTable.docId, existingDocument.id),
+        //               eq(skillsTable.id, id)
+        //             )
+        //           );
+        //       } else {
+        //         const { id, ...insertData } = skill;
+        //         await db
+        //           .insert(skillsTable)
+        //           .values({ docId: existingDocument.id, ...insertData });
+        //       }
+        //     }
+        //   }
+        // }
 
         // 🧠 SKILLS
         if (skills && Array.isArray(skills)) {
@@ -646,24 +727,22 @@ const documentRoute = new Hono()
           );
 
           for (const skill of skills) {
-            if (skill.id) {
-              if (existingSkillsMap.has(skill.id)) {
-                const { id, ...updateData } = skill;
-                await db
-                  .update(skillsTable)
-                  .set(updateData)
-                  .where(
-                    and(
-                      eq(skillsTable.docId, existingDocument.id),
-                      eq(skillsTable.id, id)
-                    )
-                  );
-              } else {
-                const { id, ...insertData } = skill;
-                await db
-                  .insert(skillsTable)
-                  .values({ docId: existingDocument.id, ...insertData });
-              }
+            const { id, ...data } = skill;
+            if (id !== undefined && existingSkillsMap.has(id)) {
+              await db
+                .update(skillsTable)
+                .set(data)
+                .where(
+                  and(
+                    eq(skillsTable.docId, existingDocument.id),
+                    eq(skillsTable.id, id)
+                  )
+                );
+            } else {
+              await db.insert(skillsTable).values({
+                docId: existingDocument.id,
+                ...data,
+              });
             }
           }
         }
