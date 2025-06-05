@@ -105,6 +105,9 @@ dependencies:
   '@radix-ui/react-tooltip':
     specifier: ^1.1.8
     version: 1.1.8(@types/react-dom@19.0.4)(@types/react@19.0.10)(react-dom@18.3.1)(react@18.3.1)
+  '@smastrom/react-rating':
+    specifier: ^1.5.0
+    version: 1.5.0(react-dom@18.3.1)(react@18.3.1)
   '@tanstack/react-query':
     specifier: ^5.59.15
     version: 5.74.3(react@18.3.1)
@@ -3745,6 +3748,16 @@ packages:
   /@rushstack/eslint-patch@1.11.0:
     resolution: {integrity: sha512-zxnHvoMQVqewTJr/W4pKjF0bMGiKJv1WX7bSrkl46Hg0QjESbzBROWK0Wg4RphzSOS5Jiy7eFimmM3UgMrMZbQ==}
     dev: true
+
+  /@smastrom/react-rating@1.5.0(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-7vg3NRgO0tpvEunq8BEWA8qckNSd7x3dVGqaNEfLs3Ow4ibU2EEXJtnd7Yl44xOujWIzXM5Bk2VZm2DVm065Qw==}
+    peerDependencies:
+      react: '>=18'
+      react-dom: '>=18'
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    dev: false
 
   /@standard-schema/utils@0.3.0:
     resolution: {integrity: sha512-e7Mew686owMaPJVNNLs55PUvgz371nKgwsc4vxE49zsODpJEnxgxRo2y/OKrqueavXgZNMDVj3DdHFlaSAeU8g==}

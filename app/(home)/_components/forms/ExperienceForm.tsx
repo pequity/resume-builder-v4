@@ -37,6 +37,8 @@ const ExperienceForm = (props: { handleNext: () => void }) => {
     onUpdate({ ...resumeInfo, experiences: experienceList });
   }, [experienceList]);
 
+  console.log(experienceList);
+
   const handleChange = (
     e: { target: { name: string; value: string } },
     index: number

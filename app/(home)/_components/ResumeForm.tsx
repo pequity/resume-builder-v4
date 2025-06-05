@@ -6,6 +6,8 @@ import React, { useState } from "react";
 import PersonalInfoForm from "./forms/PersonalInfoForm";
 import SummaryForm from "./forms/SummaryForm";
 import ExperienceForm from "./forms/ExperienceForm";
+import EducationForm from "./forms/EducationForm";
+import SkillsForm from "./forms/SkillsForm";
 
 const ResumeForm = () => {
   const { resumeInfo } = useResumeContext();
@@ -55,6 +57,10 @@ const ResumeForm = () => {
           {activeFormIndex === 2 && <SummaryForm handleNext={handleNext} />}
 
           {activeFormIndex === 3 && <ExperienceForm handleNext={handleNext} />}
+
+          {activeFormIndex === 4 && <EducationForm handleNext={handleNext} />}
+
+          {activeFormIndex === 5 && <SkillsForm />}
         </div>
       </div>
     </div>
