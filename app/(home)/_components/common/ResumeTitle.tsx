@@ -42,9 +42,13 @@ const ResumeTitle: FC<ResumeTitleProps> = ({
       <FileText className="stroke-primary" size="20px" />
       <h5
         className={cn(
-          `text-[20px] px-1 text-gray-700 dark:text-gray-300 font-semibold opacity-100`
+          `text-[20px] px-1 text-gray-700 dark:text-gray-300 font-semibold opacity-100`,
+          {
+            "!opacity-70 !pointer-events-none":
+              isLoading === true || status === "archived",
+          }
         )}
-        contentEditable={true}
+        contentEditable={isLoading || status === "archived" ? false : true}
         suppressContentEditableWarning={true}
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
