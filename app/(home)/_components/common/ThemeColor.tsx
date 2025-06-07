@@ -85,6 +85,10 @@ const ThemeColor = () => {
             title: "Success",
             description: "Theme updated successfully",
           });
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 800);
         },
         onError() {
           toast({
