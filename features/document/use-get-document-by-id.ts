@@ -2,11 +2,11 @@
 // import { api } from "@/lib/hono-rpc";
 // import { useQuery } from "@tanstack/react-query";
 
-// export const useGetDocument = (documentId: string) => {
+// export const useGetDocument = (documentId: string, isPublic: boolean = false) => {
 //   const query = useQuery({
 //     queryKey: ["documentId", documentId],
 //     queryFn: async () => {
-//       const endpoint = api.document[":documentId"];
+//       const endpoint = !isPublic ? api.document[":documentId"] : api.document.public.[":document"];
 
 //       const response = await endpoint.$get({
 //         param: {
@@ -21,7 +21,7 @@
 //       const { data, success } = await response.json();
 //       return { data, success };
 //     },
-//     retry: 3,
+//     retry: isPublic ? false : 3,
 //   });
 //   return query;
 //   // enabled: false;
@@ -29,7 +29,7 @@
 
 // export default useGetDocument;
 
-"use client";
+/* "use client";
 import { api } from "@/lib/hono-rpc";
 import { useQuery } from "@tanstack/react-query";
 
@@ -44,6 +44,40 @@ export const useGetDocument = (documentId: string) => {
     },
     retry: 3,
   });
+  return query;
+};
+
+export default useGetDocument; */
+
+"use client";
+import { api } from "@/lib/hono-rpc";
+import { useQuery } from "@tanstack/react-query";
+
+export const useGetDocument = (
+  documentId: string,
+  isPublic: boolean = false
+) => {
+  const query = useQuery({
+    queryKey: ["documentId", documentId],
+    queryFn: async () => {
+      let response;
+
+      if (isPublic) {
+        response = await api.document.public.byId.$get({
+          documentId,
+        });
+      } else {
+        response = await api.document.byId.$get({
+          documentId,
+        });
+      }
+
+      const { data, success } = await response.json();
+      return { data, success };
+    },
+    retry: isPublic ? false : 3,
+  });
+
   return query;
 };
 

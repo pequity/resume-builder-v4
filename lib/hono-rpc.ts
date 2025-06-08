@@ -185,5 +185,23 @@ export const api = {
         return res;
       },
     },
+
+    // added to solve the use-get-document-by.id.ts error
+
+    public: {
+      byId: {
+        $get: async ({ documentId }: { documentId: string }) => {
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_APP_URL}/api/document/public/doc/${documentId}`,
+            {
+              method: "GET",
+            }
+          );
+
+          if (!res.ok) throw new Error("Failed to fetch public document");
+          return res;
+        },
+      },
+    },
   },
 };

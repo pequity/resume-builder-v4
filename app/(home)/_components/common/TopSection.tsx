@@ -6,6 +6,9 @@ import ResumeTitle from "./ResumeTitle";
 import useUpdateDocument from "@/features/document/use-update-document";
 import { toast } from "@/hooks/use-toast";
 import ThemeColor from "./ThemeColor";
+import Download from "./Download";
+import Share from "./Share";
+import PreviewModal from "../PreviewModal";
 
 const TopSection = () => {
   const { resumeInfo, isLoading, onUpdate } = useResumeContext();
@@ -81,10 +84,17 @@ const TopSection = () => {
           {/* {ThemeColor} */}
           <ThemeColor />
           {/* Preview Modal */}
+          <PreviewModal />
 
           {/* Download Resume */}
+          <Download
+            title={resumeInfo?.title || "Untitled Resume"}
+            status={resumeInfo?.status}
+            isLoading={isLoading}
+          />
 
           {/* Share Resume */}
+          <Share />
 
           {/* More Option */}
         </div>
