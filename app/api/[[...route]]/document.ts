@@ -278,6 +278,72 @@ const documentRoute = new Hono()
       }
     }
   )
+  .patch(
+    "/retore/archive",
+    zValidator(
+      "json",
+      z.object({
+        documentId: z.string(),
+        status: z.string(),
+      })
+    ),
+    getAuthUser,
+    async (c) => {
+      try {
+        const user = c.get("user");
+        const userId = user.id;
+
+        const { documentId, status } = c.req.valid("json");
+
+        if (!documentId) {
+          return c.json({ message: "DocumentId must provided" }, 400);
+        }
+
+        if (status !== "archived") {
+          return c.json(
+            { message: "Status must be archived before restore" },
+            400
+          );
+        }
+
+        const [documentData] = await db
+          .update(documentTable)
+          .set({
+            status: "private",
+          })
+          .where(
+            and(
+              eq(documentTable.userId, userId),
+              eq(documentTable.documentId, documentId),
+              eq(documentTable.status, "archived")
+            )
+          )
+          .returning();
+
+        if (!documentData) {
+          return c.json({ message: "Document not found" }, 404);
+        }
+
+        return c.json(
+          {
+            success: "ok",
+            message: "Updated successfully",
+            data: documentData,
+          },
+          { status: 200 }
+        );
+      } catch (error) {
+        return c.json(
+          {
+            success: false,
+            message: "Failed to retore document",
+            error: error,
+          },
+          500
+        );
+      }
+    }
+  )
   .get("all", getAuthUser, async (c) => {
     try {
       const user = c.get("user");
@@ -388,6 +454,34 @@ const documentRoute = new Hono()
         );
       }
     }
-  );
+  )
+  .get("/trash/all", getAuthUser, async (c) => {
+    try {
+      const user = c.get("user");
+      const userId = user.id;
+      const documents = await db
+        .select()
+        .from(documentTable)
+        .where(
+          and(
+            eq(documentTable.userId, userId),
+            eq(documentTable.status, "archived")
+          )
+        );
+      return c.json({
+        success: true,
+        data: documents,
+      });
+    } catch (error) {
+      return c.json(
+        {
+          success: false,
+          message: "Failed to fetch documents",
+          error: error,
+        },
+        500
+      );
+    }
+  });
 
 export default documentRoute;

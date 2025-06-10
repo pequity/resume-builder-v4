@@ -1,0 +1,45 @@
+"use client";
+import { InferRequestType, InferResponseType } from "hono";
+import { api } from "@/lib/hono-rpc";
+import { toast } from "@/hooks/use-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+type RequestType = {
+  documentId: string;
+  status: "archived";
+};
+
+type ResponseType = {
+  success: string;
+  message: string;
+  data: unknown;
+};
+
+const useRestoreDocument = () => {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation<ResponseType, Error, RequestType>({
+    mutationFn: async (json) => {
+      const response = await api.document.restore.archive.$patch({
+        json: json,
+      });
+      return await response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["trashDocuments"] });
+      queryClient.invalidateQueries({ queryKey: ["documents"] });
+      queryClient.invalidateQueries({ queryKey: ["document"] });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to update document",
+        variant: "destructive",
+      });
+    },
+  });
+
+  return mutation;
+};
+
+export default useRestoreDocument;

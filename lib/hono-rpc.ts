@@ -203,5 +203,52 @@ export const api = {
         },
       },
     },
+
+    // added now
+
+    trash: {
+      all: {
+        $get: async () => {
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_APP_URL}/api/document/trash/all`,
+            {
+              method: "GET",
+              credentials: "include",
+            }
+          );
+
+          if (!res.ok) throw new Error("Failed to get trashed documents");
+          return res;
+        },
+      },
+    },
+
+    // added now
+
+    restore: {
+      archive: {
+        $patch: async ({
+          json,
+        }: {
+          json: {
+            documentId: string;
+            status: "archived";
+          };
+        }) => {
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_APP_URL}/api/document/retore/archive`,
+            {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(json),
+              credentials: "include",
+            }
+          );
+
+          if (!res.ok) throw new Error("Failed to restore document");
+          return res;
+        },
+      },
+    },
   },
 };
